@@ -66,18 +66,5 @@
   </body>
 
   <script>
-    "use strict";
-    const buttonElement = document.getElementById("add-form-button");
-    const sender = document.getElementById("add-form-name");
-    const message = document.getElementById("add-form-text");
-    const list = document.getElementById("comments");
-    const oldList = document.getElementById(`comments`)
-    const date = new Date();
-
-    buttonElement.addEventListener("click", () => {
-
-      document.getElementById("comments").insertAdjacentHTML(`beforeend`, 
-      `<li class="comment"><div class="comment-header"><div>${sender.value}</div><div>${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().substr(-2)} ${date.getHours()}:${date.getMinutes()}</div></div><div class="comment-body"><div class="comment-text">${message.value}</div></div><div class="comment-footer"><div class="likes"><span class="likes-counter">0</span><button class="like-button -active-like"></button></div></div></li>`)
-    });
   </script>
 </html>

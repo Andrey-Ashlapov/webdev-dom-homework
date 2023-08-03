@@ -33,31 +33,33 @@
   </body>
 
   <script>
+    //Поиск нужных тегов
     const commentsElement = document.getElementById('comments')
     const buttonElement = document.getElementById("add-form-button");
     const sender = document.getElementById("add-form-name");
     const message = document.getElementById("add-form-text");
 
-
-
+    //Изначальная БД сообщений
     const comments = [
       {
         name: "Глеб Фокин",
         date: "12.02.22 12:18",
         comment: `Это будет первый комментарий на этой странице`,
-        likes: 76
+        quantityLikes: 76,
+        like: ``
       },
       {
         name: "Варвара Н.",
         date: "13.02.22 19:22",
         comment: `Мне нравится как оформлена эта страница! ❤`,
-        likes: 26
+        quantityLikes: 26,
+        like: `-active-like`
       },
     ];
 
-    
+    //Функция рендера
     function render() {
-      const commentsHtml = comments.map((people) =>{ 
+      const commentsHtml = comments.map((people, index) =>{ 
         return `<li class="comment">
                   <div class="comment-header">
                     <div>${people.name}</div>
@@ -68,36 +70,56 @@
                   </div>
                   <div class="comment-footer">
                     <div class="likes">
-                      <span class="likes-counter">${people.likes}</span>
-                      <button class="like-button -active-like"></button>
+                      <span class="likes-counter">${people.quantityLikes}</span>
+                      <button data-index="${index}" class="like-button ${people.like}"></button>
                     </div>
                   </div>
                 </li>`
       }).join('');
-      console.log(commentsHtml);
 
       commentsElement.innerHTML = commentsHtml;
-
+      buttonsLike();
     }
-
-    render();
     
-
+    //Выводит сообщение в чат
     buttonElement.addEventListener("click", () => {
-      if (sender.value === "" && message.value === "") {
+      //Проверка на пустые поля
+      if (sender.value === "" || message.value === "") {
         return;
       }
 
+      //Добавляет сообщение в БД
       const date = new Date();
       comments.push({
       name: sender.value,
       date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().substr(-2)} ${date.getHours()}:${date.getMinutes()}`,
       comment: message.value,
-      likes: 0,
+      quantityLikes: 0,
+      like: ``,
       })
 
       render();
     });
 
+    //Поставить или убрать лайк
+    const buttonsLike = () => {
+      const buttonsLikeElement = document.querySelectorAll(`.like-button`);
+
+      for (const buttonLikeElement of buttonsLikeElement){
+        buttonLikeElement.addEventListener("click", () => {
+          const index = buttonLikeElement.dataset.index;
+          if (comments[index].like === `-active-like`) {
+          comments[index].quantityLikes--
+          comments[index].like = ``;
+          } else {
+            comments[index].quantityLikes++
+          comments[index].like = `-active-like`;
+          }
+          render();
+        })
+      }
+    }
+
+    render();
   </script>
 </html>

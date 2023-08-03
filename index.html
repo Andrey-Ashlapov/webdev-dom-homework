@@ -9,40 +9,7 @@
   <body>
     <div class="container">
       <ul id="comments" class="comments">
-        <li class="comment">
-          <div class="comment-header">
-            <div>Глеб Фокин</div>
-            <div>12.02.22 12:18</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Это будет первый комментарий на этой странице
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">3</span>
-              <button class="like-button"></button>
-            </div>
-          </div>
-        </li>
-        <li class="comment">
-          <div class="comment-header">
-            <div>Варвара Н.</div>
-            <div>13.02.22 19:22</div>
-          </div>
-          <div class="comment-body">
-            <div class="comment-text">
-              Мне нравится как оформлена эта страница! ❤
-            </div>
-          </div>
-          <div class="comment-footer">
-            <div class="likes">
-              <span class="likes-counter">75</span>
-              <button class="like-button -active-like"></button>
-            </div>
-          </div>
-        </li>
+        <!-- Рендер коментариев в js -->
       </ul>
       <div class="add-form">
         <input
@@ -66,15 +33,71 @@
   </body>
 
   <script>
-    "use strict";
+    const commentsElement = document.getElementById('comments')
     const buttonElement = document.getElementById("add-form-button");
     const sender = document.getElementById("add-form-name");
     const message = document.getElementById("add-form-text");
-    const date = new Date();
+
+
+
+    const comments = [
+      {
+        name: "Глеб Фокин",
+        date: "12.02.22 12:18",
+        comment: `Это будет первый комментарий на этой странице`,
+        likes: 76
+      },
+      {
+        name: "Варвара Н.",
+        date: "13.02.22 19:22",
+        comment: `Мне нравится как оформлена эта страница! ❤`,
+        likes: 26
+      },
+    ];
+
+    
+    function render() {
+      const commentsHtml = comments.map((people) =>{ 
+        return `<li class="comment">
+                  <div class="comment-header">
+                    <div>${people.name}</div>
+                    <div>${people.date}</div>
+                  </div>
+                  <div class="comment-body">
+                    <div class="comment-text">${people.comment}</div>
+                  </div>
+                  <div class="comment-footer">
+                    <div class="likes">
+                      <span class="likes-counter">${people.likes}</span>
+                      <button class="like-button -active-like"></button>
+                    </div>
+                  </div>
+                </li>`
+      }).join('');
+      console.log(commentsHtml);
+
+      commentsElement.innerHTML = commentsHtml;
+
+    }
+
+    render();
+    
 
     buttonElement.addEventListener("click", () => {
-      document.getElementById("comments").insertAdjacentHTML(`beforeend`, 
-      `<li class="comment"><div class="comment-header"><div>${sender.value}</div><div>${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().substr(-2)} ${date.getHours()}:${date.getMinutes()}</div></div><div class="comment-body"><div class="comment-text">${message.value}</div></div><div class="comment-footer"><div class="likes"><span class="likes-counter">0</span><button class="like-button -active-like"></button></div></div></li>`)
+      if (sender.value === "" && message.value === "") {
+        return;
+      }
+
+      const date = new Date();
+      comments.push({
+      name: sender.value,
+      date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().substr(-2)} ${date.getHours()}:${date.getMinutes()}`,
+      comment: message.value,
+      likes: 0,
+      })
+
+      render();
     });
+
   </script>
 </html>

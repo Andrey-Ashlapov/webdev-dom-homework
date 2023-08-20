@@ -39,39 +39,52 @@
     const sender = document.getElementById("add-form-name");
     const message = document.getElementById("add-form-text");
 
+    const loadingData = () => {
+      const fetchPromise = fetch("https://wedev-api.sky.pro/api/v1/andrey-ashlapov/comments",{
+        method: "GET",
+      })
+    
+      fetchPromise.then((response)=> {
+    
+        const jsonPromise = response.json();
+
+        jsonPromise.then((responseData) => {
+          console.log(responseData)
+          const appComment = responseData.comments.map((comment) => {
+            return {
+              name: comment.author.name,
+              date: new Date(comment.date),
+              text: comment.text,
+              likes: comment.likes,
+              isLiked: comment.isLiked,
+            }
+          })
+          comments = appComment;
+          render();
+        });
+      });
+    }
+
+    loadingData();
+
     //Изначальная БД сообщений
-    const comments = [
-      {
-        name: "Глеб Фокин",
-        date: "12.02.22 12:18",
-        comment: "Это будет первый комментарий на этой странице",
-        quantityLikes: 76,
-        like: ``
-      },
-      {
-        name: "Варвара Н.",
-        date: "13.02.22 19:22",
-        comment: "Мне нравится как оформлена эта страница! ❤",
-        quantityLikes: 26,
-        like: `-active-like`
-      },
-    ];
+    let comments = [];
 
     //Функция рендера
     function render() {
-      const commentsHtml = comments.map((people, index) =>{ 
-        return `<li class="comment" data-comment="${people.comment}" data-name="${people.name}">
+      const commentsHtml = comments.map((people, id) =>{ 
+        return `<li class="comment" data-comment="${people.text}" data-name="${people.name}">
                   <div class="comment-header">
                     <div>${people.name}</div>
-                    <div>${people.date}</div>
+                    <div>${people.date.getDate()}.${people.date.getMonth() + 1}.${people.date.getFullYear().toString().substr(-2)} ${people.date.getHours()}:${people.date.getMinutes()}</div>
                   </div>
                   <div class="comment-body">
-                    <div class="comment-text">${people.comment}</div>
+                    <div class="comment-text">${people.text}</div>
                   </div>
                   <div class="comment-footer">
                     <div class="likes">
-                      <span class="likes-counter">${people.quantityLikes}</span>
-                      <button data-index="${index}" class="like-button ${people.like}"></button>
+                      <span class="likes-counter">${people.likes}</span>
+                      <button data-index="${id}" class="like-button ${people.isLiked}"></button>
                     </div>
                   </div>
                 </li>`
@@ -88,25 +101,32 @@
       if (sender.value === "" || message.value === "") {
         return;
       }
-
-      //Добавляет сообщение в БД
       const date = new Date();
-      comments.push({
-      name: sender.value
-        .replaceAll("<","&lt")
-        .replaceAll(">","&gt"),
-      date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear().toString().substr(-2)} ${date.getHours()}:${date.getMinutes()}`,
-      comment: message.value
-        .replaceAll("<","&lt")
-        .replaceAll(">","&gt")
-        .replaceAll("QUOTE_BEGIN", "<blockquote>")
-        .replaceAll("QUOTE_END", "</blockquote>"),
-      quantityLikes: 0,
-      like: ``,
-      })
+
+      fetch("https://wedev-api.sky.pro/api/v1/andrey-ashlapov/comments",{
+        method: "POST",
+        body: JSON.stringify({
+          date: date,
+          likes: 0,
+          isLiked: false,
+          name: sender.value
+            .replaceAll("<","&lt")
+            .replaceAll(">","&gt"),
+          text: message.value
+            .replaceAll("<","&lt")
+            .replaceAll(">","&gt")
+            .replaceAll("QUOTE_BEGIN", "<blockquote>")
+            .replaceAll("QUOTE_END", "</blockquote>"),
+        })
+      }).then((response) => {
+        response.json().then((responseData) => {
+          comments = responseData.todos;
+        });
+      });
+
       sender.value = "";
       message.value = "";
-      render();
+      loadingData();
     });
 
     //Поставить или убрать лайк

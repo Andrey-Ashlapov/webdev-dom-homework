@@ -14,6 +14,12 @@ body {
     min-height: 100vh;
   }
 
+  .loading {
+    padding: 12px;
+    animation: rotateAnim 5s linear 0s infinite normal forwards;
+  }
+
+
   .comments,
   .comment {
     margin: 0;
@@ -120,6 +126,7 @@ body {
   .add-form-row {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
   }
 
   .add-form-button {
@@ -134,4 +141,14 @@ body {
 
   .add-form-button:hover {
     opacity: 0.9;
+  }
+
+  @keyframes rotateAnim {
+    0% {
+      transform: rotate(0);
+    }
+  
+    100% {
+      transform: rotate(360deg);
+    }
   }

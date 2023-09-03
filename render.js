@@ -1,7 +1,6 @@
 
 import { buttonElement } from "./main.js";
 import { addComentEvent } from "./addComentEvent.js";
-import { buttonsLike } from "./addLike.js";
 //Функция рендера
 export const render = (comment) => {
     const commentsHtml = comment.map((people, id) =>{ 
@@ -27,5 +26,4 @@ export const render = (comment) => {
     buttonElement.disabled = false;
     document.getElementsByClassName("loading")[1].style.display = 'none';
     addComentEvent();
-    
   }

@@ -48,28 +48,35 @@
 
     //Загрузка данных с БД 
     const loadingData = () => {
-      const fetchPromise = fetch("https://wedev-api.sky.pro/api/v1/andrey-ashlapov/comments",{
+      fetch("https://wedev-api.sky.pro/api/v1/andrey-ashlapov/comments",{
         method: "GET",
       })
-      fetchPromise.then((response)=> {
-    
-        const jsonPromise = response.json();
-
-        jsonPromise.then((responseData) => {
-          console.log(responseData)
-          const appComment = responseData.comments.map((comment) => {
-            return {
-              name: comment.author.name,
-              date: new Date(comment.date),
-              text: comment.text,
-              likes: comment.likes,
-              isLiked: comment.isLiked,
-            }
-          })
-          comments = appComment;
+      .then((response)=> {
+        if (response.status === 200) {
+          return response.json();
+        } else {
+          throw new Error("Ошибка сервера, повторите попытку позже")
+        }
+      })
+      .then((responseData) => {
+        return responseData.comments.map((comment) => {
+          return {
+            name: comment.author.name,
+            date: new Date(comment.date),
+            text: comment.text,
+            likes: comment.likes,
+            isLiked: comment.isLiked,
+          }
+        })
+      })
+      .then((appComment) => {
+        comments = appComment;
           document.getElementsByClassName("loading")[0].style.display = 'none';
           render();
-        });
+      })
+      .catch((error) => {
+        alert("Ошибка");
+        console.warn(error);
       });
     }
 
@@ -111,6 +118,7 @@
       if (sender.value === "" || message.value === "") {
         return;
       }
+
       buttonElement.disabled = true;
       document.getElementsByClassName("loading")[1].style.display = 'inline-block';
       const date = new Date();
@@ -130,15 +138,24 @@
             .replaceAll("QUOTE_BEGIN", "<blockquote>")
             .replaceAll("QUOTE_END", "</blockquote>"),
         })
-      }).then((response) => {
-        response.json().then((responseData) => {
+      })
+      .then((response) => {
+        if (response.status === 201) {
+          return response.json();
+        } else {
+          throw new Error("Ошибка проверти введеные данные")
+        }
+      })
+      .then((responseData) => {
           comments = responseData.todos;
-        });
+          sender.value = "";
+          message.value = "";
+          loadingData();
+      })
+      .catch((error) => {
+        alert("Ошибка проверти введеные данные");
+        console.warn(error);
       });
-
-      sender.value = "";
-      message.value = "";
-      loadingData();
     });
 
     //Поставить или убрать лайк

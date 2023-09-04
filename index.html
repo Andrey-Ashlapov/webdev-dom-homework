@@ -55,7 +55,7 @@
         if (response.status === 200) {
           return response.json();
         } else {
-          throw new Error("Ошибка сервера, повторите попытку позже")
+          throw new Error("Ошибка сервера, не удалось получить данные")
         }
       })
       .then((responseData) => {
@@ -75,7 +75,7 @@
           render();
       })
       .catch((error) => {
-        alert("Ошибка");
+        alert("Ошибка приложения");
         console.warn(error);
       });
     }
@@ -140,11 +140,21 @@
         })
       })
       .then((response) => {
-        if (response.status === 201) {
-          return response.json();
-        } else {
-          throw new Error("Ошибка проверти введеные данные")
-        }
+        switch (response.status) {
+          case 201: 
+            return response.json(); 
+            break;
+          case 400: 
+            throw new Error("Ошибка, проверьте введеные данные");
+            buttonElement.disabled = false;
+            document.getElementsByClassName("loading")[1].style.display = 'none'; 
+            break;
+          case 500:
+            throw new Error("Ошибка сервера");
+            buttonElement.disabled = false;
+            document.getElementsByClassName("loading")[1].style.display = 'none'; 
+            break;
+        };
       })
       .then((responseData) => {
           comments = responseData.todos;
@@ -153,7 +163,9 @@
           loadingData();
       })
       .catch((error) => {
-        alert("Ошибка проверти введеные данные");
+        alert("Произошла ошибка, повторите попытку позже");
+        buttonElement.disabled = false;
+        document.getElementsByClassName("loading")[1].style.display = 'none';
         console.warn(error);
       });
     });

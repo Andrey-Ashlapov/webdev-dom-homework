@@ -2,6 +2,7 @@ import { buttonElement } from "./main.js";
 import { sender } from "./main.js";
 import { message } from "./main.js";
 import { loadingData } from "./get.js";
+import { user } from "./authorization.js";
 
 export const clickAddComent = () => {
     //Проверка на пустые поля
@@ -13,15 +14,12 @@ export const clickAddComent = () => {
     document.getElementsByClassName("loading")[1].style.display = 'inline-block';
     const date = new Date();
   
-    fetch("https://wedev-api.sky.pro/api/v1/andrey-ashlapov/comments",{
+    fetch("https://wedev-api.sky.pro/api/v2/andrey-ashlapov/comments",{
       method: "POST",
+      headers: {
+        Authorization: "Bearer "+ user[1],
+      },
       body: JSON.stringify({
-        date: date,
-        likes: 0,
-        isLiked: false,
-        name: sender.value
-          .replaceAll("<","&lt")
-          .replaceAll(">","&gt"),
         text: message.value
           .replaceAll("<","&lt")
           .replaceAll(">","&gt")
@@ -30,14 +28,23 @@ export const clickAddComent = () => {
       })
     })
     .then((response) => {
-      if (response.status === 201) {
-        return response.json();
-      } else {
-        throw new Error("Ошибка  данные")
-      }
+      switch (response.status) {
+        case 201: 
+          return response.json(); 
+          break;
+        case 400: 
+          throw new Error("Ошибка, проверьте введеные данные");
+          buttonElement.disabled = false;
+          document.getElementsByClassName("loading")[1].style.display = 'none'; 
+          break;
+        case 500:
+          throw new Error("Ошибка сервера");
+          buttonElement.disabled = false;
+          document.getElementsByClassName("loading")[1].style.display = 'none'; 
+          break;
+      };
     })
     .then(() => {
-        sender.value = "";
         message.value = "";
         loadingData();
         document.getElementsByClassName("loading")[1].style.display = 'none';

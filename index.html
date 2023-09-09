@@ -8,16 +8,22 @@
 
   <body>
     <div class="container">
+      <div class="authoButtonHead">
+        <button class="addRegBlock" id="addRegBlock">Зарегестрироваться</button>
+        <button class="addAuthoBlock" id="addAuthoBlock">Авторизоваться</button>
+      </div>
       <div class="loading"> <img src="./icons8-спиннер,-кадр-1-90.png"> </div>
       <ul id="comments" class="comments">
         <!-- Рендер коментариев в js -->
       </ul>
-      <div class="add-form">
+      <div class="add-form" id="add-form">
         <input
           id="add-form-name"
           type="text"
           class="add-form-name"
           placeholder="Введите ваше имя"
+          disabled="true"
+          readonly
         />
         <textarea
           id="add-form-text"
@@ -31,7 +37,23 @@
           <button id="add-form-button" class="add-form-button">Написать</button>
         </div>
       </div>
+
+      <div class="autho">
+        <div id="TB_overlay" class="TB_overlay"></div>
+        <div class="authoBlock">
+          <div class="authoText">Введите логин и пароль</div>
+          <input class="name" type="text" placeholder="Ваше имя"/>
+          <input class="login" type="login" placeholder="Логин"/>
+          <input class="password" type="password" placeholder="Пароль"/>
+          <div class="authoButton">
+            <button id="cancelAutho" class="cancelAutho">Отмена</button>
+            <button id="authorization" class="authorization">Войти</button>
+          </div>
+        </div>
+      </div>
     </div>
+
+    
     <script type="module" src="./main.js"></script>
   </body>
 </html>

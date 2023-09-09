@@ -102,6 +102,7 @@ body {
     margin-top: 48px;
     display: flex;
     flex-direction: column;
+    display: none;
   }
 
   .add-form-name,
@@ -141,6 +142,95 @@ body {
 
   .add-form-button:hover {
     opacity: 0.9;
+  }
+  .authoText {
+    font-size: 32px;
+  }
+
+  .cancelAutho,
+  .addAuthoBlock,
+  .authorization,
+  .addRegBlock {
+    margin-top: 24px;
+    font-size: 24px;
+    padding: 10px 20px;
+    background-color: #bcec30;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+  }
+
+  .cancelAutho:hover {
+    opacity: 0.9;
+  }
+  .authorization:hover {
+    opacity: 0.9;
+  }
+  .addAuthoBlock:hover {
+    opacity: 0.9;
+  }
+  .addRegBlockv:hover {
+    opacity: 0.9;
+  }
+
+  .cancelAutho {
+    background-color: #808080;
+  }
+
+  .authoBlock {
+    position:fixed;
+    margin: -150px auto auto -299px;
+    top:50%;
+    left:50%;
+    text-align:center;
+    padding: 20px;
+
+    display: flex;
+    gap: 32px;
+    flex-direction: column;
+    align-items: center;
+
+    width: 596px;
+    box-sizing: border-box;
+    background:#7334ea;
+    filter: drop-shadow(0px 20px 67px rgba(0, 0, 0, 0.08));
+    border-radius: 20px;
+  }
+
+  .authoButton {
+    display: flex;
+    gap: 20px;
+  }
+  .authoButtonHead {
+    position: fixed;
+    display: flex;
+    gap: 20px;
+    margin: -7% 0% 0px 55%;
+    z-index: 1000;
+  }
+
+  .name,
+  .login,
+  .password {
+    font-size: 16px;
+    font-family: Helvetica;
+    border-radius: 8px;
+    border: none;
+    width: 300px;
+    padding: 11px 22px;
+  }
+  .name {
+    display: none;
+  }
+
+  .TB_overlay {
+    background-color: #000;
+    height: 100%;
+    left: 0;
+    opacity: 0.50; 
+    position: fixed;
+    top: 0;
+    width: 100%;
   }
 
   @keyframes rotateAnim {

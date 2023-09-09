@@ -1,7 +1,7 @@
 import { render } from "./render.js";
 //Загрузка данных с БД 
 export const loadingData = () => {
-    fetch("https://wedev-api.sky.pro/api/v1/andrey-ashlapov/comments",{
+    fetch("https://wedev-api.sky.pro/api/v2/andrey-ashlapov/comments",{
       method: "GET",
     })
     .then((response)=> {
@@ -14,6 +14,9 @@ export const loadingData = () => {
     .then((responseData) => {
       return responseData.comments.map((comment) => {
         return {
+          id: comment.id,
+          login_name: comment.author.login,
+          id_name: comment.author.id,
           name: comment.author.name,
           date: new Date(comment.date),
           text: comment.text,

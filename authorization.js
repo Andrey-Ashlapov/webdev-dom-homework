@@ -1,4 +1,6 @@
-export const user = [];
+import { user } from "./main.js";
+import { newUser } from "./main.js";
+import { sender } from "./main.js";
 
 export const authorization = () => {
     fetch("https://wedev-api.sky.pro/api/user/login",{
@@ -19,10 +21,9 @@ export const authorization = () => {
         };
     }).then((response)=> {
         console.log(response);
-        user[0] = response.user.name;
-        user[1] = response.user.token;
+        newUser(response.user.name, response.user.token);
 
-        document.getElementById("add-form-name").value = user[0];
+        sender.value = user[0];
         document.getElementsByClassName("add-form")[0].style.display = "flex";
     }).catch((error) => {
         alert("Произошла ошибка");

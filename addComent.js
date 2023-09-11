@@ -2,7 +2,7 @@ import { buttonElement } from "./main.js";
 import { sender } from "./main.js";
 import { message } from "./main.js";
 import { loadingData } from "./get.js";
-import { user } from "./authorization.js";
+import { user } from "./main.js";
 
 export const clickAddComent = () => {
     //Проверка на пустые поля

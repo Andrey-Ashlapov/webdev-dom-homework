@@ -1,10 +1,19 @@
 import { loadingData } from "./get.js";
 import { clickAddComent } from "./addComent.js";
 import { authorization } from "./authorization.js";
+import { regist } from "./reg.js";
+
+export const user = [];
+export const newUser = (name,token) => {
+    user[0] = name;
+    user[1] = token;
+};
 //Поиск нужных тегов
 export const buttonElement = document.getElementById("add-form-button");
 export const sender = document.getElementById("add-form-name");
 export const message = document.getElementById("add-form-text");
+
+const authoriz = document.getElementsByClassName("authorization")[0];
 
 document.getElementsByClassName("loading")[1].style.display = 'none';
 loadingData();
@@ -14,7 +23,7 @@ document.getElementsByClassName("autho")[0].style.display = 'none';
 document.getElementById("addAuthoBlock").addEventListener("click", () => {
     document.getElementsByClassName("autho")[0].style.display = 'block';
     document.getElementsByClassName("name")[0].style.display = 'none';
-    document.getElementsByClassName("authorization")[0].firstChild.data = 'Войти';
+    authoriz.firstChild.data = 'Войти';
 })
 
 document.getElementById("cancelAutho").addEventListener("click", () => {
@@ -24,15 +33,20 @@ document.getElementById("cancelAutho").addEventListener("click", () => {
 document.getElementById("addRegBlock").addEventListener("click", () => {
     document.getElementsByClassName("autho")[0].style.display = 'block';
     document.getElementsByClassName("name")[0].style.display = 'block';
-    document.getElementsByClassName("authorization")[0].firstChild.data = 'Зарегистрироваться';
+    authoriz.firstChild.data = 'Зарегистрироваться';
 })
 
 document.getElementById("TB_overlay").addEventListener("click", () => {
     document.getElementsByClassName("autho")[0].style.display = 'none';
 })
 
-document.getElementById("authorization").addEventListener("click", () => {
+authoriz.addEventListener("click", () => {
     document.getElementsByClassName("autho")[0].style.display = 'none';
-    authorization();
+    if (authoriz.firstChild.data == 'Зарегистрироваться') {
+        regist();
+    } else {
+        authorization();
+    }
+    
 })
 

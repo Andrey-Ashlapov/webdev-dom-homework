@@ -12,7 +12,6 @@ export const clickAddComent = () => {
 
     buttonElement.disabled = true
     document.getElementsByClassName('loading')[1].style.display = 'inline-block'
-    const date = new Date()
 
     fetch('https://wedev-api.sky.pro/api/v2/andrey-ashlapov/comments', {
         method: 'POST',
@@ -31,21 +30,18 @@ export const clickAddComent = () => {
             switch (response.status) {
                 case 201:
                     return response.json()
-                    break
                 case 400:
                     buttonElement.disabled = false
                     document.getElementsByClassName(
                         'loading'
                     )[1].style.display = 'none'
                     throw new Error('Ошибка, проверьте введеные данные')
-                    break
                 case 500:
                     buttonElement.disabled = false
                     document.getElementsByClassName(
                         'loading'
                     )[1].style.display = 'none'
                     throw new Error('Ошибка сервера')
-                    break
             }
         })
         .then(() => {

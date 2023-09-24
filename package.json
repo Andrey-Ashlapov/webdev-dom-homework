@@ -4,7 +4,10 @@
     "description": "https://glebkaf.github.io/webdev-dom-homework/",
     "main": "main.js",
     "scripts": {
-        "dev": "webpack --mode development --watch"
+        "dev": "webpack --mode development --watch",
+        "lint:js": "eslint ./**/*.js",
+        "lint": "npm run lint:js",
+        "prepare": "husky install"
     },
     "author": "",
     "license": "ISC",

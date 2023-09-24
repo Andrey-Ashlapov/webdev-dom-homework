@@ -42,7 +42,7 @@ document.getElementById('TB_overlay').addEventListener('click', () => {
 
 authoriz.addEventListener('click', () => {
     document.getElementsByClassName('autho')[0].style.display = 'none'
-    if (authoriz.firstChild.data == 'Зарегистрироваться') {
+    if (authoriz.firstChild.data === 'Зарегистрироваться') {
         regist()
     } else {
         authorization()

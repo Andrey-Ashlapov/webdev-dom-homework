@@ -7,7 +7,7 @@ export const render = (comment) => {
     const commentsHtml = comment
         .map((people, id) => {
             const createDate = format(people.date, 'yyyy-MM-dd hh.mm.ss')
-            return `<li class="comment" data-comment="${people.text}" data-name="${people.name}" data-id="${people.id_name}">
+            return `<li class="comment" data-comment="${people.text}" data-name="${people.name}" data-id="${people.idName}">
                 <div class="comment-header">
                   <div>${people.name}</div>
                   <div>${createDate}</div>

@@ -15,8 +15,8 @@ export const loadingData = () => {
             return responseData.comments.map((comment) => {
                 return {
                     id: comment.id,
-                    login_name: comment.author.login,
-                    id_name: comment.author.id,
+                    loginName: comment.author.login,
+                    idName: comment.author.id,
                     name: comment.author.name,
                     date: new Date(comment.date),
                     text: comment.text,

@@ -9,12 +9,14 @@
     "author": "",
     "license": "ISC",
     "dependencies": {
+        "babel-eslint": "^10.1.0",
         "date-fns": "^2.30.0"
     },
     "devDependencies": {
         "eslint": "^8.49.0",
         "eslint-config-prettier": "^9.0.0",
         "eslint-plugin-prettier": "^5.0.0",
+        "husky": "^8.0.3",
         "prettier": "^3.0.3",
         "webpack": "^5.88.2",
         "webpack-cli": "^5.1.4"
